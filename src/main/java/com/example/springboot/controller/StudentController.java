@@ -1,10 +1,7 @@
 package com.example.springboot.controller;
 
 import com.example.springboot.bean.Student;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +46,11 @@ public class StudentController {
 
     // Spring boot REST API that handles HTTP POST Request
     // @PostMapping and @RequestBody
-
-    
+    @PostMapping("students/create")
+    public Student createStudent(@RequestBody Student student) {
+        System.out.println(student.getId());
+        System.out.println(student.getFirstName());
+        System.out.println(student.getLastName());
+        return student;
+    }
 }
