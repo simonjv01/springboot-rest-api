@@ -46,4 +46,9 @@ public class StudentController {
                                           @RequestParam String lastName) {
         return new Student(id, firstName, lastName);
     }
+
+    // Spring boot REST API that handles HTTP POST Request
+    // @PostMapping and @RequestBody
+
+    
 }
