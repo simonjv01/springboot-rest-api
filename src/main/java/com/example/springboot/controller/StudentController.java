@@ -52,11 +52,12 @@ public class StudentController {
     // Spring boot REST API that handles HTTP POST Request
     // @PostMapping and @RequestBody
     @PostMapping("students/create")
-    public Student createStudent(@RequestBody Student student) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<Student> createStudent(@RequestBody Student student) {
         System.out.println(student.getId());
         System.out.println(student.getFirstName());
         System.out.println(student.getLastName());
-        return student;
+        return new ResponseEntity<>(student, HttpStatus.CREATED);
     }
 
     // Spring boot rest api that handles http PUT Request - updating existing resource
