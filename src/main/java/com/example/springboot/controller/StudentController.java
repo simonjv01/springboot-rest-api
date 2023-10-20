@@ -1,6 +1,8 @@
 package com.example.springboot.controller;
 
 import com.example.springboot.bean.Student;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -10,38 +12,41 @@ import java.util.List;
 public class StudentController {
 
     @GetMapping("student")
-    public Student getStudent() {
-        return new Student(
-                1, "Simon","Vargas"
-        );
+    public ResponseEntity<Student> getStudent() {
+        Student student = new Student(1, "Simon", "Vargas");
+        //return new ResponseEntity<>(student, HttpStatus.OK);
+        return ResponseEntity.ok().header("custom-header", "vargas")
+                .body(student);
     }
 
     @GetMapping("/students")
-    public List<Student> getStudents() {
+    public ResponseEntity<List<Student>> getStudents() {
         List<Student> studentList = new ArrayList<>();
         studentList.add(new Student(1, "Simon", "Vargas"));
         studentList.add(new Student(2, "Steve", "Thomas"));
         studentList.add(new Student(3, "Jill", "Logan"));
-        return studentList;
+        return ResponseEntity.ok(studentList);
     }
 
     // spring BOOT REST API with Path Variable
     // {id} - URI template variable
     // http://localhost:8080/students/1/simon/vargas
     @GetMapping("students/{id}/{first-name}/{last-name}")
-    public Student studentPathVariable(@PathVariable("id") int studentId,
+    public ResponseEntity<Student> studentPathVariable(@PathVariable("id") int studentId,
                                        @PathVariable("first-name") String firstName,
                                        @PathVariable("last-name") String lastName) {
-        return new Student(studentId, firstName, lastName);
+        Student student = new Student(studentId, firstName, lastName);
+        return ResponseEntity.ok(student);
     }
 
     // spring boot REST API  with Request Param
     // http://localhost:8080/students/query?id=1&firsName=Simon&lastName=Vargas
     @GetMapping("students/query")
-    public Student studentRequestVariable(@RequestParam int id,
+    public ResponseEntity<Student> studentRequestVariable(@RequestParam int id,
                                           @RequestParam String firstName,
                                           @RequestParam String lastName) {
-        return new Student(id, firstName, lastName);
+        Student student = new Student(id, firstName, lastName);
+        return ResponseEntity.ok(student);
     }
 
     // Spring boot REST API that handles HTTP POST Request
@@ -63,7 +68,9 @@ public class StudentController {
     }
 
     // spring boot REST API that handles HTTP DELETE Request - deleting the existing resource
-    public String deleteStudent(int studentId) {
+    @DeleteMapping("students/{id}/delete")
+    public String deleteStudent(@PathVariable("id") int studentId) {
+        System.out.println(studentId);
         return "Student deleted successfully!";
     }
 }
